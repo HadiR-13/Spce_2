@@ -70,7 +70,7 @@
                         <h4>Seat 5</h4>
                     </div>
                 </div>
-                <button class="submit-btn">Book Seat</button>
+                <button class="submit-btn" onclick="goToPayment()">Book Seat</button>
             </div>
         </section>
     </main>

@@ -1,5 +1,5 @@
 <?php
-$planets = json_decode(file_get_contents("../data/planets.json"), true);
+    $planets = json_decode(file_get_contents("../data/planets.json"), true);
 ?>
 
 <!DOCTYPE html>

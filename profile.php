@@ -1,5 +1,9 @@
 <?php
     require './content/conf.php';
+    if (!isset($_SESSION['username'])) {
+        header("Location: ./login.php");
+        exit();
+    }
 ?>
 
 <!DOCTYPE html>
@@ -25,6 +29,7 @@
                 display: flex;
                 justify-content: center;
                 align-items: center;
+                height: 80%;
             }
 
             .contained-profile {
@@ -38,7 +43,6 @@
                 background: var(--glass-bg);
                 padding: 1rem;
                 box-shadow: 0 0 5px rgba(255, 255, 255, 0.5), 0 0 25px var(--shadow-dark);
-                height: 100%;
                 gap: 1rem;
             }
 
@@ -244,11 +248,11 @@
                             </li>
                             <li class="phone">
                                 <h1 class="label">Phone:</h1>
-                                <span class="info">+11 234 567 890</span>
+                                <?php echo '<span class="info">'. $_SESSION["phone"] .'</span>'; ?>
                             </li>
                             <li class="email">
                                 <h1 class="label">E-mail:</h1>
-                                <span class="info">hello@rsmarquetech.com</span>
+                                <?php echo '<span class="info">'. $_SESSION["email"] .'</span>'; ?>
                             </li>
                         </ul>
                     </div>
