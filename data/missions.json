@@ -1,0 +1,30 @@
+{
+  "Exploration": {
+    "image": "asset/mission/image-exploration.jpg",
+    "name": "EXPLORATION",
+    "duration": "Varies",
+    "equipment": "Space Shuttle, Rovers, Satellites, Space Probes",
+    "description": "Embark on a journey into the unknown. Exploration missions focus on understanding new celestial bodies, mapping terrain, and gathering data to fuel future missions."
+  },
+  "Travel": {
+    "image": "asset/mission/image-travel.jpg",
+    "name": "Travel",
+    "duration": "Varies",
+    "equipment": "Spacecraft, Habitats ",
+    "description": "Travel missions are geared toward human and robotic transport to new destinations. These missions emphasize safety, efficiency, and sustainability in space travel."
+  },
+  "Mining": {
+    "image": "asset/mission/image-planet-cracker-portrait.jpg",
+    "name": "Mining",
+    "duration": "5-10 years",
+    "equipment": "Planet Crackers, Excavation Tools",
+    "description": " Mining missions seek to harvest valuable resources like water ice, metals, and other minerals from asteroids, moons, or planets to support deep space exploration and provide raw materials for building and energy."
+  },
+  "Colonization": {
+    "image": "asset/mission/image-colony.jpg",
+    "name": "Colonization",
+    "duration": "Indefinite",
+    "equipment": "Habitats, Life Support Systems, Cryogenic Pods, Energy Generators, Agricultural Units ",
+    "description": "Colonization missions aim to establish long-term human presence on other celestial bodies, such as the Moon or Mars. These missions focus on building sustainable habitats, developing self-sufficient ecosystems, and creating infrastructure for long-term survival and growth. The goal is to create a foothold for humanity beyond Earth, ensuring adaptability and expansion into the cosmos."
+  }
+}
