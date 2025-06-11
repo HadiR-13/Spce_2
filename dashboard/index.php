@@ -1,160 +1,268 @@
 <?php
-    $planets = json_decode(file_get_contents("../data/planets.json"), true);
+require 'function.php';
+// require 'cek.php';
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Planet Editor</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            padding: 30px;
-            background-color: #f8f9fa;
-        }
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>Dashboard - Spacestation</title>
+        <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
+        <link href="css/styles.css" rel="stylesheet" />
+        <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+    </head>
+    <body class="sb-nav-fixed">
+        <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+            <a class="navbar-brand ps-3" href="index.php">Dashboard Admin</a>
+            <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
+            <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
+                <div class="input-group">
+                    <input class="form-control" type="text" placeholder="Search for..." aria-label="Search for..." aria-describedby="btnNavbarSearch" />
+                    <button class="btn btn-primary" id="btnNavbarSearch" type="button"><i class="fas fa-search"></i></button>
+                </div>
+            </form>
+        </nav>
+        <div id="layoutSidenav">
+            <div id="layoutSidenav_nav">
+                <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+                    <div class="sb-sidenav-menu">
+                        <div class="nav">
+                            <div class="sb-sidenav-menu-heading">Halaman</div>
+                            <a class="nav-link" href="index.php">
+                                <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                                Histori Booking
+                            </a>
+                            <a class="nav-link" href="edit_planet.php">
+                                <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                                Edit Planet
+                            </a>
+                            <a class="nav-link" href="logout.php">
+                                Logout
+                            </a>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+            <div id="layoutSidenav_content">
+                <main>
+                    <div class="container-fluid px-4">
+                        <h1 class="mt-4">Histori Booking Tiket</h1>                           
+                        <div class="card mb-4">
+                            <div class="card-header">
+                                <!-- Button to Open the Modal -->
+                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal">
+                                Tambah Histori
+                                </button>
+                                <a href="export.php" class="btn btn-success">Export Data</a>
+                            </div>
+                            <div class="card-body">
+                                <table id="datatablesSimple">
+                                    <thead>
+                                        <tr>
+                                            <th>No</th>
+                                            <th>Nama</th>
+                                            <th>Jenis Tiket</th>
+                                            <th>Destinasi</th>
+                                            <th>Tanggal Pemberangkatan</th>
+                                            <th>Aksi</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php
+                                        $i = 1;
+                                        $query = "SELECT 
+                                                    u.id_user,
+                                                    u.email, 
+                                                    t.id_tiket,
+                                                    t.kelas, 
+                                                    p2.id_planet AS tujuan_id,
+                                                    p2.nama AS tujuan_nama,
+                                                    h.id_histori,
+                                                    h.tanggal, 
+                                                    h.pukul  
+                                                FROM histori_booking h
+                                                JOIN user u ON h.id_user = u.id_user
+                                                JOIN tiket t ON h.id_tiket = t.id_tiket
+                                                JOIN planet p2 ON h.tujuan = p2.id_planet
+                                                ORDER BY h.tanggal ASC, h.pukul ASC
+                                                    ";
 
-        h1 {
-            text-align: center;
-        }
+                                        $getdatastock = mysqli_query($conn, $query);
+                                        while($data=mysqli_fetch_array($getdatastock)){
+                                            $id_histori = $data['id_histori'];
+                                            $user = $data['email'];
+                                            $tiket = $data['kelas'];
+                                            $tujuan = $data['tujuan'];
+                                            $tanggal = $data['tanggal'];
+                                            $pukul = $data['pukul'];
 
-        .planet-list {
-            max-width: 700px;
-            margin: auto;
-        }
+                                            $destinasi = htmlspecialchars($tujuan);
+                                            $pemberangkatan = htmlspecialchars($tanggal).' - '.htmlspecialchars($pukul).' WIB';
+                                        ?>
+                                        <tr>
+                                            <td><?=$i++;?></td>
+                                            <td><?=htmlspecialchars($user);?></td>
+                                            <td><?=htmlspecialchars($tiket);?></td>
+                                            <td><?=htmlspecialchars($destinasi);?></td>
+                                            <td><?=htmlspecialchars($pemberangkatan);?></td>
+                                            <td>
+                                            <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#edit<?=$id_histori;?>">
+                                            Edit
+                                            </button>
+                                            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#delete<?=$id_histori;?>">
+                                            Delete
+                                            </button>
 
-        .planet-header {
-            background-color: #e2e6ea;
-            padding: 10px 20px;
-            cursor: pointer;
-            border-radius: 8px;
-            margin-bottom: 5px;
-            font-weight: bold;
-        }
+                                            <!-- Delete Modal -->
+                                            <div class="modal fade" id="delete<?=$id_histori;?>" >
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
 
-        .planet-details {
-            display: none;
-            padding: 15px 20px;
-            background-color: #ffffff;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            margin-bottom: 20px;
-        }
+                                                    <!-- Modal Header -->
+                                                    <div class="modal-header">
+                                                        <h4 class="modal-title">Hapus Histori?</h4>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                                    </div>
 
-        label {
-            display: block;
-            margin-top: 10px;
-            font-weight: 600;
-        }
+                                                    <!-- Modal body -->
+                                                    <form method="post">
+                                                    <div class="modal-body">
+                                                        <?=$user;?><br>
+                                                        <?=$tiket;?><br>
+                                                        <?=$destinasi;?><br>
+                                                        <?=$pemberangkatan;?><br>
+                                                        <strong>Anda yakin ingin menghapus histori ini?<strong><br><br>
+                                                        <input type="hidden" name="id_histori" value="<?=$id_histori;?>">
+                                                        <button class="btn btn-danger" type="submit" name="deletehistori">Hapus</button>
+                                                    </div>
+                                                    </form>
+                                                    </div>
+                                                </div>
 
-        input, textarea {
-            width: 100%;
-            padding: 6px;
-            margin-top: 4px;
-        }
+                                                </td>     
+                                             </tr>    
 
-        .submit-btn {
-            margin: 30px auto;
-            display: block;
-            padding: 10px 20px;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-        }
+                                            <!-- Edit Modal -->
+                                            <div class="modal fade" id="edit<?=$id_histori;?>">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
 
-        .submit-btn:hover {
-            background-color: #0056b3;
-        }
+                                                <!-- Modal Header -->
+                                                <div class="modal-header">
+                                                    <h4 class="modal-title">Edit Histori</h4>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                                </div>
 
-        .add-new {
-            background-color: #f1f3f5;
-            padding: 20px;
-            border-radius: 8px;
-            margin-top: 40px;
-        }
-    </style>
-    <script>
-        function toggleDetails(id) {
-            const detail = document.getElementById(id);
-            detail.style.display = detail.style.display === "block" ? "none" : "block";
-        }
-    </script>
-</head>
-<body>
+                                                <!-- Modal body -->
+                                                <form method="post">
+                                                <div class="modal-body">
+                                                    <strong> Ada delay pada jadwal : </strong><br>
+                                                    <?=$user;?><br>
+                                                    <?=$tiket;?><br>
+                                                    <?=$destinasi;?><br>
+                                                    <?=$pemberangkatan;?><br><br>
 
-<h1>Planet Data Editor</h1>
+                                                    <strong>Edit jadwal disini :</strong>
+                                                    <input class="form-control" type="date" name="tanggal" value="<?=$tanggal?>" required><br>
+                                                    <input class="form-control" type="time" name="pukul" value="<?=$pukul?>" required><br>
+                                                    <input type="hidden" name="id_histori" value="<?=$id_histori;?>">
+                                                    <button class="btn btn-primary" type="submit"  name="updatehistori">Submit</button>
+                                                </div>
+                                                </form>
+                                                </div>
+                                            </div>                               
+                                        <?php
+                                        };
+                                        ?>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </main>
+                <footer class="py-4 bg-light mt-auto">
+                    <div class="container-fluid px-4">
+                        <div class="d-flex align-items-center justify-content-between small">
+                            <div class="text-muted">Copyright &copy; 231712035 - Habibullah Aqil Dika Putra</div>
+                        </div>
+                    </div>
+                </footer>
+            </div>
+        </div>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+        <script src="js/scripts.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
+        <script src="assets/demo/chart-area-demo.js"></script>
+        <script src="assets/demo/chart-bar-demo.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
+        <script src="js/datatables-simple-demo.js"></script>
+    </body>
+    <!-- The Modal -->
+    <div class="modal fade" id="myModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
 
-<form action="save.php" method="post" class="planet-list">
-
-    <?php foreach ($planets as $index => $planet): ?>
-        <div class="planet-header" onclick="toggleDetails('planet-<?= $index ?>')">
-            <?= htmlspecialchars(ucfirst($planet['name'])) ?>
+        <!-- Modal Header -->
+        <div class="modal-header">
+            <h4 class="modal-title">Tambah Histori</h4>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
         </div>
 
-        <div class="planet-details" id="planet-<?= $index ?>">
-            <input type="hidden" name="planets[<?= $index ?>][name]" value="<?= htmlspecialchars($planet['name']) ?>">
+        <!-- Modal body -->
+         <form method="post">
+        <div class="modal-body">
+        <label>User :</label>
+        <select class="form-control" name="user" required>
+                <?php
+                    $getdata = mysqli_query($conn, "SELECT * FROM user");
+                    while($row = mysqli_fetch_assoc($getdata)){ // Ganti menjadi fetch_assoc
+                        echo "<option value='{$row['id_user']}'>{$row['email']}</option>";
+                    }
+                ?>
+                </select><br>
 
-            <label>Cost</label>
-            <input type="text" name="planets[<?= $index ?>][cost]" value="<?= htmlspecialchars($planet['cost']) ?>">
+            <label>Kelas Tiket :</label>
+            <select class="form-control" name="tiket" required>
+                <?php
+                    $getdata = mysqli_query($conn, "SELECT * FROM tiket");
+                    while($row = mysqli_fetch_assoc($getdata)){ // Ganti menjadi fetch_assoc
+                        echo "<option value='{$row['id_tiket']}'>{$row['kelas']}</option>";
+                    }
+                ?>
+                </select><br>
 
-            <label>Distance</label>
-            <input type="text" name="planets[<?= $index ?>][distance]" value="<?= htmlspecialchars($planet['distance']) ?>">
+            <label>Asal Pemberangkatan :</label>
+            <select class="form-control" name="asal" required>
+                <?php
+                    $getdata = mysqli_query($conn, "SELECT * FROM planet");
+                    while($row = mysqli_fetch_assoc($getdata)){ // Ganti menjadi fetch_assoc
+                        echo "<option value='{$row['id_planet']}'>{$row['nama']}</option>";
+                    }
+                ?>
+                </select><br>
 
-            <label>Estimasi</label>
-            <input type="text" name="planets[<?= $index ?>][estimasi]" value="<?= htmlspecialchars($planet['estimasi']) ?>">
+            <label>Tujuan Pemberangkatan :</label>
+            <select class="form-control" name="tujuan" required>
+                <?php
+                    $getdata = mysqli_query($conn, "SELECT * FROM planet");
+                    while($row = mysqli_fetch_assoc($getdata)){ // Ganti menjadi fetch_assoc
+                        echo "<option value='{$row['id_planet']}'>{$row['nama']}</option>";
+                    }
+                ?>
+                </select><br>
 
-            <label>Description</label>
-            <textarea name="planets[<?= $index ?>][description]"><?= htmlspecialchars($planet['description']) ?></textarea>
-
-            <label>Detail Description</label>
-            <textarea name="planets[<?= $index ?>][detailDescription]"><?= htmlspecialchars($planet['detailDescription']) ?></textarea>
-
-            <label>Position (x, y, z)</label>
-            <input type="text" name="planets[<?= $index ?>][position]" value="<?= $planet['position']['x'] . ',' . $planet['position']['y'] . ',' . $planet['position']['z'] ?>">
-
-            <label>File</label>
-            <input type="text" name="planets[<?= $index ?>][file]" value="<?= htmlspecialchars($planet['file']) ?>">
-
-            <label>Scale</label>
-            <input type="text" name="planets[<?= $index ?>][scale]" value="<?= htmlspecialchars($planet['scale']) ?>">
+            <label>Jadwal Pemberangkatan :</label>
+            <input class="form-control" type="date" name="tanggal" required><br>
+            <input class="form-control" type="time" name="pukul" required><br>
+            <button class="btn btn-primary" type="submit"  name="addnewhistori">Submit</button><br><br>
         </div>
-    <?php endforeach; ?>
+        </form>
 
-    <div class="add-new">
-        <h2>Add New Planet</h2>
-
-        <label>Name</label>
-        <input type="text" name="new[name]">
-
-        <label>File</label>
-        <input type="text" name="new[file]">
-
-        <label>Scale</label>
-        <input type="text" name="new[scale]" value="0.0025">
-
-        <label>Position (x, y, z)</label>
-        <input type="text" name="new[position]" placeholder="e.g. 10,0,-50">
-
-        <label>Description</label>
-        <textarea name="new[description]"></textarea>
-
-        <label>Detail Description</label>
-        <textarea name="new[detailDescription]"></textarea>
-
-        <label>Distance</label>
-        <input type="text" name="new[distance]">
-
-        <label>Estimasi</label>
-        <input type="text" name="new[estimasi]">
-
-        <label>Cost</label>
-        <input type="text" name="new[cost]">
+        </div>
     </div>
-
-    <button class="submit-btn" type="submit">Save All Changes</button>
-</form>
-
-</body>
+    </div>
 </html>

@@ -16,17 +16,17 @@
         <div id="container3D"></div>
         <section class="container" id="main-page">
             <div class="title">
-                <h1 class="main-title">Hello</h1>
+                <h1 class="main-title"></h1>
             </div>
             <div class="line"></div>
             <div class="sub-title">
-                <p id="main-description">Hello</p>
+                <p id="main-description"></p>
             </div>
         </section>
         <section class="description" id="description-planet">
             <div class="container">
-                <h2 class="main-title">Hellow</h2>
-                <p id="detail-description">Haloha</p>
+                <h2 class="main-title"></h2>
+                <p id="detail-description"></p>
                 <div class="line"></div>
                 <div class="info">
                     <div>
