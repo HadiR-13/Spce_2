@@ -415,7 +415,7 @@ main {
 .mission-info,
 .mission-image img {
   opacity: 1;
-  transition: opacity 0.5s ease;
+  transition: opacity 0.2s ease;
 }
 
 /* Mission info fade effects */
@@ -427,7 +427,7 @@ main {
 .mission-info.fade-in {
   opacity: 1;
   transform: translateY(0);
-  transition: opacity 0.5s ease, transform 0.5s ease;
+  transition: opacity 0.2s ease, transform 0.2s ease;
 }
 
 /* Mission image fade effects */
@@ -439,7 +439,7 @@ main {
 .mission-image img.fade-in {
   opacity: 1;
   transform: scale(1);
-  transition: opacity 0.5s ease, transform 0.5s ease;
+  transition: opacity 0.2s ease, transform 0.2s ease;
 }
 
 .stats {

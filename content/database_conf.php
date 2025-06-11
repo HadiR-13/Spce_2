@@ -4,9 +4,9 @@
     $password = "";
     $db = "db_space";
 
-    $data = mysqli_connect($host,$user,$password,$db);
+    $conn = mysqli_connect($host,$user,$password,$db);
 
-    if ($data -> connect_error) {
-        die("Connection failed: " . $data->connect_error);
+    if ($conn -> connect_error) {
+        die("Connection failed: " . $conn->connect_error);
     }
 ?>

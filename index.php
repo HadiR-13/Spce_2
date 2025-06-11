@@ -12,6 +12,7 @@
 </head>
 <body>
     <?php include './content/navbar.php'; ?>
+<<<<<<< HEAD
     <main>
         <div class="hero-content">
             <div class="text-content">
@@ -55,6 +56,8 @@
             </div>
         </div>
     </main>
+=======
+>>>>>>> a7d194232e411f1be049fe4685d2498ed2e4c7b8
     <script src="js/script.js"></script>
     <script>
   let missions = {};
