@@ -1,6 +1,7 @@
 <?php
 require 'function.php';
-// require 'cek.php';
+require '../content/database_conf.php';
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -19,12 +20,6 @@ require 'function.php';
         <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
             <a class="navbar-brand ps-3" href="index.php">Dashboard Admin</a>
             <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
-            <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
-                <div class="input-group">
-                    <input class="form-control" type="text" placeholder="Search for..." aria-label="Search for..." aria-describedby="btnNavbarSearch" />
-                    <button class="btn btn-primary" id="btnNavbarSearch" type="button"><i class="fas fa-search"></i></button>
-                </div>
-            </form>
         </nav>
         <div id="layoutSidenav">
             <div id="layoutSidenav_nav">
@@ -53,10 +48,6 @@ require 'function.php';
                         <h1 class="mt-4">Histori Booking Tiket</h1>                           
                         <div class="card mb-4">
                             <div class="card-header">
-                                <!-- Button to Open the Modal -->
-                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal">
-                                Tambah Histori
-                                </button>
                                 <a href="export.php" class="btn btn-success">Export Data</a>
                             </div>
                             <div class="card-body">
@@ -65,9 +56,8 @@ require 'function.php';
                                         <tr>
                                             <th>No</th>
                                             <th>Nama</th>
-                                            <th>Jenis Tiket</th>
                                             <th>Destinasi</th>
-                                            <th>Tanggal Pemberangkatan</th>
+                                            <th>Nomor Kursi</th>
                                             <th>Aksi</th>
                                         </tr>
                                     </thead>
@@ -75,50 +65,34 @@ require 'function.php';
                                         <?php
                                         $i = 1;
                                         $query = "SELECT 
-                                                    u.id_user,
-                                                    u.email, 
-                                                    t.id_tiket,
-                                                    t.kelas, 
-                                                    p2.id_planet AS tujuan_id,
-                                                    p2.nama AS tujuan_nama,
-                                                    h.id_histori,
-                                                    h.tanggal, 
-                                                    h.pukul  
-                                                FROM histori_booking h
-                                                JOIN user u ON h.id_user = u.id_user
-                                                JOIN tiket t ON h.id_tiket = t.id_tiket
-                                                JOIN planet p2 ON h.tujuan = p2.id_planet
-                                                ORDER BY h.tanggal ASC, h.pukul ASC
-                                                    ";
+                                                    b.booking_id,
+                                                    u.username,
+                                                    b.planet_id,
+                                                    b.seat_number
+                                                FROM booking b
+                                                JOIN user u ON b.user_id = u.user_id
+                                                ORDER BY b.booking_id ASC";
 
                                         $getdatastock = mysqli_query($conn, $query);
-                                        while($data=mysqli_fetch_array($getdatastock)){
-                                            $id_histori = $data['id_histori'];
-                                            $user = $data['email'];
-                                            $tiket = $data['kelas'];
-                                            $tujuan = $data['tujuan'];
-                                            $tanggal = $data['tanggal'];
-                                            $pukul = $data['pukul'];
-
-                                            $destinasi = htmlspecialchars($tujuan);
-                                            $pemberangkatan = htmlspecialchars($tanggal).' - '.htmlspecialchars($pukul).' WIB';
+                                        $i = 1;
+                                        while($data = mysqli_fetch_array($getdatastock)){
+                                            $id_booking = $data['booking_id'];
+                                            $user = $data['username'];
+                                            $planet = $data['planet_id']; 
+                                            $seat = $data['seat_number'];
                                         ?>
                                         <tr>
-                                            <td><?=$i++;?></td>
-                                            <td><?=htmlspecialchars($user);?></td>
-                                            <td><?=htmlspecialchars($tiket);?></td>
-                                            <td><?=htmlspecialchars($destinasi);?></td>
-                                            <td><?=htmlspecialchars($pemberangkatan);?></td>
+                                            <td><?= $i++; ?></td>
+                                            <td><?= htmlspecialchars($user); ?></td>
+                                            <td><?= htmlspecialchars($planet); ?></td>
+                                            <td><?= htmlspecialchars($seat); ?></td>
                                             <td>
-                                            <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#edit<?=$id_histori;?>">
-                                            Edit
-                                            </button>
-                                            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#delete<?=$id_histori;?>">
-                                            Delete
-                                            </button>
-
+                                                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#delete<?= $id_booking; ?>">Delete</button>
+                                            </td>
+                                        </tr>
+                                        <tr>
                                             <!-- Delete Modal -->
-                                            <div class="modal fade" id="delete<?=$id_histori;?>" >
+                                            <div class="modal fade" id="delete<?=$id_booking;?>" >
                                                 <div class="modal-dialog">
                                                     <div class="modal-content">
 
@@ -132,49 +106,16 @@ require 'function.php';
                                                     <form method="post">
                                                     <div class="modal-body">
                                                         <?=$user;?><br>
-                                                        <?=$tiket;?><br>
-                                                        <?=$destinasi;?><br>
-                                                        <?=$pemberangkatan;?><br>
+                                                        <?=$planet;?><br>
+                                                        <?=$seat;?><br>
                                                         <strong>Anda yakin ingin menghapus histori ini?<strong><br><br>
-                                                        <input type="hidden" name="id_histori" value="<?=$id_histori;?>">
+                                                        <input type="hidden" name="id_booking" value="<?=$id_booking;?>">
                                                         <button class="btn btn-danger" type="submit" name="deletehistori">Hapus</button>
                                                     </div>
                                                     </form>
-                                                    </div>
                                                 </div>
-
-                                                </td>     
-                                             </tr>    
-
-                                            <!-- Edit Modal -->
-                                            <div class="modal fade" id="edit<?=$id_histori;?>">
-                                            <div class="modal-dialog">
-                                                <div class="modal-content">
-
-                                                <!-- Modal Header -->
-                                                <div class="modal-header">
-                                                    <h4 class="modal-title">Edit Histori</h4>
-                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                                                </div>
-
-                                                <!-- Modal body -->
-                                                <form method="post">
-                                                <div class="modal-body">
-                                                    <strong> Ada delay pada jadwal : </strong><br>
-                                                    <?=$user;?><br>
-                                                    <?=$tiket;?><br>
-                                                    <?=$destinasi;?><br>
-                                                    <?=$pemberangkatan;?><br><br>
-
-                                                    <strong>Edit jadwal disini :</strong>
-                                                    <input class="form-control" type="date" name="tanggal" value="<?=$tanggal?>" required><br>
-                                                    <input class="form-control" type="time" name="pukul" value="<?=$pukul?>" required><br>
-                                                    <input type="hidden" name="id_histori" value="<?=$id_histori;?>">
-                                                    <button class="btn btn-primary" type="submit"  name="updatehistori">Submit</button>
-                                                </div>
-                                                </form>
-                                                </div>
-                                            </div>                               
+                                            </div>
+                                        </tr>    
                                         <?php
                                         };
                                         ?>
