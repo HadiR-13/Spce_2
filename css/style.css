@@ -347,7 +347,7 @@ header nav .main-nav li a::after {
   justify-content: space-between;
   align-items: center;
   color: white;
-  padding: 0 165px;
+  padding: 100px 165px;
 }
 
 .mission-section-title {
