@@ -92,8 +92,6 @@
     document.getElementById("mission-duration").textContent = mission.duration;
     document.getElementById("mission-equipment").textContent = mission.equipment;
   }
-
-  
 </script>
 
 </body>
