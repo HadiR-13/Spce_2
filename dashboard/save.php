@@ -42,5 +42,5 @@ if (!empty($_POST['new']['name'])) {
 }
 
 file_put_contents("../data/planets.json", json_encode($planets, JSON_PRETTY_PRINT));
-header("Location: index.php");
+header("Location: ./form_edit.php");
 exit;
