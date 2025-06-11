@@ -1,0 +1,66 @@
+[
+    {
+        "planet_id": "p_mars",
+        "name": "mars",
+        "file": "mars.glb",
+        "scale": 0.0025,
+        "position": {
+            "x": 9.5,
+            "y": 0,
+            "z": -50
+        },
+        "description": "Don\u2019t forget to pack your hiking boots. You\u2019ll need them to tackle Olympus Mons, the tallest planetary mountain in our solar system.",
+        "detailDescription": "Don\u2019t forget to pack your hiking boots. You\u2019ll need them to tackle Olympus Mons, the tallest planetary mountain in our solar system. Hehehe ku ubah",
+        "distance": "384,400 KM",
+        "estimasi": "5 Days",
+        "cost": "150 Dollar"
+    },
+    {
+        "planet_id": "p_earth",
+        "name": "earth",
+        "file": "earth.glb",
+        "scale": 0.0025,
+        "position": {
+            "x": 0,
+            "y": -1.8,
+            "z": 0
+        },
+        "description": "See our planet as you\u2019ve never seen it before. A perfect relaxing trip away to help regain perspective and come back refreshed. While you\u2019re there, take in some history by visiting the Luna 2 and Apollo 11 landing sites.",
+        "detailDescription": "See our planet as you\u2019ve never seen it before. A perfect relaxing trip away to help regain perspective and come back refreshed. While you\u2019re there, take in some history by visiting the Luna 2 and Apollo 11 landing sites. Hehehehehe",
+        "distance": "384,500 KM",
+        "estimasi": "6 Days",
+        "cost": "160 Dollar"
+    },
+    {
+        "planet_id": "p_venus",
+        "name": "venus",
+        "file": "venus.glb",
+        "scale": 0.0025,
+        "position": {
+            "x": -9.5,
+            "y": 0,
+            "z": -50
+        },
+        "description": "Looks and temperature can be deceiving. Though Venus\u2019 surface is extremely hot, the upper atmosphere, around 30 miles up, is much cooler and has pressures similar to Earth\u2019s. This layer has intrigued scientists, as it could potentially support microbial life despite the presence of acidic clouds.",
+        "detailDescription": "Looks and temperature can be deceiving. Though Venus\u2019 surface is extremely hot, the upper atmosphere, around 30 miles up, is much cooler and has pressures similar to Earth\u2019s. This layer has intrigued scientists, as it could potentially support microbial life despite the presence of acidic clouds.",
+        "distance": "384,600 KM",
+        "estimasi": "7 Days",
+        "cost": "170 Dollar"
+    },
+    {
+        "planet_id": "p_pluto",
+        "name": "pluto",
+        "file": "pluto.glb",
+        "scale": 0.0025,
+        "position": {
+            "x": 0,
+            "y": 10,
+            "z": -1000
+        },
+        "description": "The smallest of the four Galilean moons orbiting Jupiter, Europa is a winter lover\u2019s dream. With an icy surface, it\u2019s perfect for a bit of ice skating, curling, hockey, or simple relaxation in your snug wintery cabin.",
+        "detailDescription": "The smallest of the four Galilean moons orbiting Jupiter, Europa is a winter lover\u2019s dream. With an icy surface, it\u2019s perfect for a bit of ice skating, curling, hockey, or simple relaxation in your snug wintery cabin.",
+        "distance": "384,800 KM",
+        "estimasi": "80 Days",
+        "cost": "180 Dollar"
+    }
+]

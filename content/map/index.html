@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Solar System</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="viewport">
+      <div class="container">
+        <div class="sun">
+          <img src="./images/sun.png" alt="sun" />
+        </div>
+        <div class="mercury">
+          <div class="planet-body mercury-body"></div>
+        </div>
+        <div class="venus">
+          <div class="planet-body venus-body"></div>
+        </div>
+        <div class="earth">
+          <div class="planet-body earth-body"></div>
+          <div class="moon-orbit">
+            <div class="moon-body"></div>
+          </div>
+        </div>
+        <div class="mars">
+          <div class="planet-body mars-body"></div>
+        </div>
+        <div class="jupiter"></div>
+        <div class="saturn"></div>
+        <div class="uranus"></div>
+        <div class="neptune"></div>
+        <div class="pluto"></div>
+      </div>
+    </div>
+    <script src="script.js"></script>
+    <script>
+      const viewport = document.querySelector(".viewport");
+      const container = document.querySelector(".container");
+
+      let isDragging = false;
+      let startX, startY;
+      let offsetX = 0,
+        offsetY = 0;
+      let scale = 1;
+
+      viewport.addEventListener("mousedown", (e) => {
+        isDragging = true;
+        startX = e.clientX - offsetX;
+        startY = e.clientY - offsetY;
+      });
+
+      viewport.addEventListener("mouseup", () => {
+        isDragging = false;
+      });
+
+      viewport.addEventListener("mouseleave", () => {
+        isDragging = false;
+      });
+
+      viewport.addEventListener("mousemove", (e) => {
+        if (!isDragging) return;
+        offsetX = e.clientX - startX;
+        offsetY = e.clientY - startY;
+        updateTransform();
+      });
+
+      viewport.addEventListener("wheel", (e) => {
+        e.preventDefault();
+        const zoomIntensity = 0.1;
+        if (e.deltaY < 0) {
+          scale += zoomIntensity;
+        } else {
+          scale = Math.max(0.5, scale - zoomIntensity);
+        }
+        updateTransform();
+      });
+
+      function updateTransform() {
+        container.style.transform = `translate(${offsetX}px, ${offsetY}px) scale(${scale})`;
+      }
+
+      window.addEventListener("load", () => {
+        const viewportRect = viewport.getBoundingClientRect();
+        const containerRect = container.getBoundingClientRect();
+
+        offsetX = (viewportRect.width - containerRect.width) / 2;
+        offsetY = (viewportRect.height - containerRect.height) / 2;
+
+        updateTransform(); // apply initial centering
+      });
+    </script>
+  </body>
+</html>
