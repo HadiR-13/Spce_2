@@ -46,25 +46,26 @@
         </section>
         <section class="booking" id="booking-planet">
             <div class="container">
+                <div class="planet-id"></div>
                 <h2>Book your seat to <span class="main-title">Hello</span></h2>
                 <div class="user-seat">
-                    <div class="seat">
+                    <div class="seat" data-seat="1">
                         <img src="./asset/img/user.webp" alt="">
                         <h4>Seat 1</h4>
                     </div>
-                    <div class="seat booked">
+                    <div class="seat" data-seat="2">
                         <img src="./asset/img/user.webp" alt="">
-                        <h4>Username</h4>
+                        <h4>Seat 2</h4>
                     </div>
-                    <div class="seat">
+                    <div class="seat" data-seat="3">
                         <img src="./asset/img/user.webp" alt="">
                         <h4>Seat 3</h4>
                     </div>
-                    <div class="seat">
+                    <div class="seat" data-seat="4">
                         <img src="./asset/img/user.webp" alt="">
                         <h4>Seat 4</h4>
                     </div>
-                    <div class="seat">
+                    <div class="seat" data-seat="5">
                         <img src="./asset/img/user.webp" alt="">
                         <h4>Seat 5</h4>
                     </div>
@@ -73,7 +74,10 @@
             </div>
         </section>
     </main>
-    <script type="module" src="./js/app.js"></script>
-    <script src="js/script.js"></script>
+    <script>
+        const jsonUrl = "./data/planets.json?v=<?= filemtime('data/planets.json') ?>";
+    </script>
+    <script type="module" src="./js/app.js?v=<?= filemtime('js/app.js') ?>"></script>
+    <script src="js/script.js?v=1.0"></script>
 </body>
 </html>

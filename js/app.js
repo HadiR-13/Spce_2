@@ -36,7 +36,7 @@ let mainPlanet = null;
 const raycaster = new THREE.Raycaster();
 const mouse = new THREE.Vector2();
 
-fetch('./data/planets.json')
+fetch(jsonUrl)
     .then(res => res.json())
     .then(json => {
         const promises = json.map(data => loadPlanet(data));
@@ -56,12 +56,7 @@ fetch('./data/planets.json')
         document.getElementById('distance-planet').textContent = mainPlanet.userData.distance;
         document.getElementById('estimate-planet').textContent = mainPlanet.userData.estimasi;
         document.getElementById('cost-travel').textContent = mainPlanet.userData.cost;
-
-        fetch('api/get_planet.php')
-            .then(response => response.json())
-            .then(data => {
-                mainPlanet.userData.id = data.planet_id;
-        });
+        document.getElementsByClassName('planet-id')[0].id = mainPlanet.userData.planet_id;
 
         arrPositionModel[0].position = {
             x: positions[1].x,
@@ -78,9 +73,11 @@ fetch('./data/planets.json')
 function loadPlanet(data) {
     return new Promise((resolve) => {
         loader.load(`./asset/${data.file}`, (gltf) => {
+            
         const planet = gltf.scene;
         planet.scale.setScalar(data.scale);
         planet.position.set(data.position.x, data.position.y, data.position.z);
+        planet.userData.planet_id = data.planet_id;
         planet.userData.name = data.name;
         planet.userData.description = data.description;
         planet.userData.detailDescription = data.detailDescription;
@@ -144,6 +141,7 @@ function onClick(event) {
         document.getElementById('distance-planet').textContent = rootPlanet.userData.distance;
         document.getElementById('estimate-planet').textContent = rootPlanet.userData.estimasi;
         document.getElementById('cost-travel').textContent = rootPlanet.userData.cost;
+        document.getElementsByClassName('planet-id')[0].id = rootPlanet.userData.planet_id;
     }
 
     if (index === 0) {

@@ -12,6 +12,5 @@
 </head>
 <body>
     <?php include './content/navbar.php'; ?>
-    <script src="js/script.js"></script>
 </body>
 </html>

@@ -6,7 +6,7 @@
         $username = $_POST["username"];
         $password = $_POST["password"];
 
-        $stmt = $data->prepare("SELECT * FROM user WHERE username = ? AND password = ?");
+        $stmt = $conn->prepare("SELECT * FROM user WHERE username = ? AND password = ?");
         $stmt->bind_param("ss", $username, $password);
         $stmt->execute();
         $result = $stmt->get_result();
@@ -48,6 +48,5 @@
             <button type="submit" name="login">Log In</button>
         </form>
     </main>
-    <script src="js/script.js"></script>
 </body>
 </html>
