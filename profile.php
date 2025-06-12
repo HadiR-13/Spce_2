@@ -224,7 +224,6 @@ if ($planetData) {
                 border: none;
                 display: block;
             }
-
         </style>
         <?php include './content/navbar.php'; ?> 
         <main>
