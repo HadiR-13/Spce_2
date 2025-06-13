@@ -1,10 +1,6 @@
 <?php
 session_start();
 
-//membuat koneksi ke database
-$conn = mysqli_connect("localhost", "root", "", "db_space");
-
-//DELETE - Menghapus Histori
 if(isset($_POST['deletehistori'])){
     $id_booking = $_POST['id_booking'];
 
