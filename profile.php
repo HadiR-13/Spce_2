@@ -1,9 +1,36 @@
 <?php
-    require './content/conf.php';
-    if (!isset($_SESSION['username'])) {
-        header("Location: ./login.php");
-        exit();
+require './content/conf.php';
+require './content/database_conf.php';
+if (!isset($_SESSION['username'])) {
+    header("Location: ./login.php");
+    exit();
+}
+
+$username = $_SESSION['username'];
+
+if ($username) {
+    $stmt = $conn->prepare("
+        SELECT b.* 
+        FROM user u
+        JOIN booking b ON u.user_id = b.user_id
+        WHERE u.username = ?
+    ");
+    $stmt->bind_param("s", $username);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $bookings = $result->fetch_all(MYSQLI_ASSOC);
+} else {
+    $bookings = [];
+}
+
+$planetMap = [];
+$planetData = @file_get_contents('./data/planets.json');
+if ($planetData) {
+    $planets = json_decode($planetData, true);
+    foreach ($planets as $planet) {
+        $planetMap[$planet['planet_id']] = $planet;
     }
+}
 ?>
 
 <!DOCTYPE html>
@@ -258,7 +285,30 @@
                     </div>
                     <div class="user_detail" id="ticket" style="display: none;">
                         <h1 class="heading">Ticket Information</h1>
+                        <?php if (!empty($bookings)): ?>
+                        <ul>
+                        <?php foreach ($bookings as $booking): 
+                            $planet_id = $booking['planet_id']; 
+                            $planet = $planetMap[$planet_id] ?? null;
+                        ?>
+                            <?php if ($planet): ?>
+                            <li style="margin-bottom: 1.5rem;">
+                            <h1>Planet Tujuan: <span><?= htmlspecialchars($planet['planet_id']) ?></span></h1><br>
+                            <p 
+                                style="color: var(--text-light); margin: 0.3rem 0;">Jarak: <?= htmlspecialchars($planet['distance']) ?><br>
+                                Estimasi Perjalanan: <?= htmlspecialchars($planet['estimasi']) ?><br>
+                                Biaya: <?= htmlspecialchars($planet['cost']) ?><br>
+                                No Tempat Duduk: <?= htmlspecialchars($booking['seat_number']) ?><br>
+                            </p>
+                            </li>
+                            <?php else: ?>
+                            <li><p style="color:red;">Data planet dengan ID <?= htmlspecialchars($planet_id) ?> tidak ditemukan.</p></li>
+                            <?php endif; ?>
+                        <?php endforeach; ?>
+                        </ul>
+                        <?php else: ?>
                         <p>You have no tickets at the moment.</p>
+                        <?php endif; ?>
                     </div>
                     <div class="user_detail" id="map" style="display: none; height: 100%;">
                         <iframe src="./content/map" frameborder="0" class="map-frame"></iframe>
