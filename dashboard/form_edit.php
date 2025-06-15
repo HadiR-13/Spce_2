@@ -1,4 +1,5 @@
 <?php
+    require 'auth_check.php';
     $planets = json_decode(file_get_contents("../data/planets.json"), true);
 ?>
 

@@ -1,12 +1,7 @@
 <?php
 require 'function.php';
 require '../content/database_conf.php';
-session_start();
-
-if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
-    header("Location: ../");
-    exit;
-}
+require 'auth_check.php';
 
 ?>
 <!DOCTYPE html>
