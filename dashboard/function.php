@@ -1,30 +1,21 @@
 <?php
 session_start();
+require '../content/database_conf.php';
 
 if (isset($_POST['deletehistori'])) {
-    $id_booking = $_POST['id_booking'];
+    $id_booking = mysqli_real_escape_string($conn, $_POST['id_booking']);
 
-    // Gunakan prepared statement untuk keamanan (opsional tapi direkomendasikan)
-    $query = "DELETE FROM booking WHERE booking_id = ?";
-    $stmt = mysqli_prepare($conn, $query);
+    if (!$id_booking) {
+        die("ID tidak valid.");
+    }
 
-    if ($stmt) {
-        mysqli_stmt_bind_param($stmt, "s", $id_booking);
-        $success = mysqli_stmt_execute($stmt);
-        mysqli_stmt_close($stmt);
+    $delete = mysqli_query($conn, "DELETE FROM booking WHERE booking_id = '$id_booking'");
 
-        if ($success) {
-            header('Location: index.php');
-            exit(); // pastikan untuk mengakhiri eksekusi setelah header
-        } else {
-            // Debug log ke file atau tampilkan error
-            echo "<script>alert('Gagal menghapus data.'); window.location.href='index.php';</script>";
-            exit();
-        }
-    } else {
-        // Debug saat prepare statement gagal
-        echo "<script>alert('Terjadi kesalahan pada query.'); window.location.href='index.php';</script>";
+    if ($delete) {
+        header("Location: index.php");
         exit();
+    } else {
+        die("Query gagal: " . mysqli_error($conn));
     }
 }
 
