@@ -82,7 +82,7 @@ require '../content/database_conf.php';
                                             $seat = $data['seat_number'];
                                         ?>
                                         <tr>
-                                            <td class="no-col"></td>
+                                            <td class="no-col">$i++</td>
                                             <td><?= htmlspecialchars($user); ?></td>
                                             <td><?= htmlspecialchars($planet); ?></td>
                                             <td><?= htmlspecialchars($seat); ?></td>
