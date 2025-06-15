@@ -124,9 +124,9 @@ require '../content/database_conf.php';
                                         </tr> 
 
                                         <!-- Edit Modal -->
-                                            <div class="modal fade" id="edit<?=$id_booking;?>" >
-                                                <div class="modal-dialog">
-                                                    <div class="modal-content">
+                                        <div class="modal fade" id="edit<?= $id_booking; ?>">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
 
                                                     <!-- Modal Header -->
                                                     <div class="modal-header">
@@ -136,33 +136,39 @@ require '../content/database_conf.php';
 
                                                     <!-- Modal body -->
                                                     <form method="post">
-                                                    <div class="modal-body">
-                                                        Pax : 
-                                                        <?=$user;?><br><br>
-                                                        Destination:
-                                                        <select class="form-control" name="planet-edit" required>
-                                                        <?php
-                                                            $planets = json_decode(file_get_contents("../data/planets.json"), true);
-                                                            foreach($planets as $row) { 
-                                                                echo "<option value='{$row['planet_id']}'>{$row['name']}</option>";
-                                                            }
-                                                        ?>
-                                                        </select><br>
+                                                        <div class="modal-body">
+                                                            Pax :
+                                                            <?= htmlspecialchars($user); ?><br><br>
 
-                                                        Seat :
-                                                        <select class="form-control" name="seat-edit" required>
-                                                        <?php
-                                                        for ($i = 1; $i <= 5; $i++) {
-                                                            echo "<option value='{$i}'>Seat {$i}</option>";
-                                                        }
-                                                        ?>
-                                                        </select><br>
-                                                        <input type="hidden" name="id_booking" value="<?=$id_booking;?>">
-                                                        <button class="btn btn-success mt-2" type="submit" name="edithistori">Submit</button>
-                                                    </div>
-                                                </form>
+                                                            Destination:
+                                                            <select class="form-control" name="planet-edit" required>
+                                                                <?php
+                                                                $planets = json_decode(file_get_contents("../data/planets.json"), true);
+                                                                foreach ($planets as $row) {
+                                                                    $selected = ($row['planet_id'] == $planet) ? 'selected' : '';
+                                                                    echo "<option value='{$row['planet_id']}' $selected>{$row['name']}</option>";
+                                                                }
+                                                                ?>
+                                                            </select><br>
+
+                                                            Seat:
+                                                            <select class="form-control" name="seat-edit" required>
+                                                                <?php
+                                                                for ($i = 1; $i <= 5; $i++) {
+                                                                    $selected = ($i == $seat) ? 'selected' : '';
+                                                                    echo "<option value='{$i}' $selected>Seat {$i}</option>";
+                                                                }
+                                                                ?>
+                                                            </select><br>
+
+                                                            <input type="hidden" name="id_booking" value="<?= $id_booking; ?>">
+                                                            <button class="btn btn-success mt-2" type="submit" name="edithistori">Submit</button>
+                                                        </div>
+                                                    </form>
+
                                                 </div>
                                             </div>
+                                        </div>
                                         <?php
                                         };
                                         ?>
