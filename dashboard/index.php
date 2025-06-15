@@ -54,7 +54,7 @@ require '../content/database_conf.php';
                                 <table id="datatablesSimple">
                                     <thead>
                                         <tr>
-                                            <th data-sortable="false">No</th>
+                                            <th>No</th>
                                             <th>Nama</th>
                                             <th>Destinasi</th>
                                             <th>Nomor Kursi</th>
@@ -82,7 +82,7 @@ require '../content/database_conf.php';
                                             $seat = $data['seat_number'];
                                         ?>
                                         <tr>
-                                            <td class="no-col"></td>
+                                            <td ><?= $i++; ?></td>
                                             <td><?= htmlspecialchars($user); ?></td>
                                             <td><?= htmlspecialchars($planet); ?></td>
                                             <td><?= htmlspecialchars($seat); ?></td>
