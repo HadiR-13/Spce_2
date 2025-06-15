@@ -1,12 +1,6 @@
 <?php
 require 'function.php';
-
-session_start();
-
-if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
-    header("Location: ../");
-    exit;
-}
+require 'auth_check.php';
 ?>
 <!DOCTYPE html>
 <html lang="en">
