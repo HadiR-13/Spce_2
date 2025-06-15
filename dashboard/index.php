@@ -63,7 +63,7 @@ require '../content/database_conf.php';
                                     </thead>
                                     <tbody>
                                         <?php
-                                        $i = 1;
+                                        $no = 1;
                                         $query = "SELECT 
                                                     b.booking_id,
                                                     u.username,
@@ -81,7 +81,7 @@ require '../content/database_conf.php';
                                             $seat = $data['seat_number'];
                                         ?>
                                         <tr>
-                                            <td ><?= $i++; ?></td>
+                                            <td><?= $no++; ?></td>
                                             <td><?= htmlspecialchars($user); ?></td>
                                             <td><?= htmlspecialchars($planet); ?></td>
                                             <td><?= htmlspecialchars($seat); ?></td>
@@ -106,7 +106,7 @@ require '../content/database_conf.php';
                                                         <?=$user;?><br>
                                                         <?=$planet;?><br>
                                                         <?=$seat;?><br>
-                                                        <strong>Anda yakin ingin menghapus histori ini?<strong><br><br>
+                                                        <strong>Anda yakin ingin menghapus histori ini?</strong><br><br>
                                                         <input type="hidden" name="id_booking" value="<?=$id_booking;?>">
                                                         <button class="btn btn-danger" type="submit" name="deletehistori">Hapus</button>
                                                     </div>
