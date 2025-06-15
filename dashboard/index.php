@@ -1,6 +1,13 @@
 <?php
 require 'function.php';
 require '../content/database_conf.php';
+require 'auth_check.php';
+checkAdminRole(); 
+
+require 'function.php';
+require '../content/database_conf.php';
+
+$currentUser = getCurrentUser();
 
 ?>
 <!DOCTYPE html>

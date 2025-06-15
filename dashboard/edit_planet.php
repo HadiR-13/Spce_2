@@ -1,5 +1,7 @@
 <?php
 require 'function.php';
+require 'auth_check.php';
+checkAdminRole();
 ?>
 <!DOCTYPE html>
 <html lang="en">
