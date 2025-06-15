@@ -74,7 +74,6 @@ require '../content/database_conf.php';
                                                 ORDER BY b.booking_id ASC";
 
                                         $getdatastock = mysqli_query($conn, $query);
-                                        $i = 1;
                                         while($data = mysqli_fetch_array($getdatastock)){
                                             $id_booking = $data['booking_id'];
                                             $user = $data['username'];
