@@ -20,6 +20,12 @@ require '../content/database_conf.php';
         <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
             <a class="navbar-brand ps-3" href="index.php">Dashboard Admin</a>
             <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!"><i class="fas fa-bars"></i></button>
+            <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
+                <div class="input-group">
+                    <input class="form-control" type="text" placeholder="Search for..." aria-label="Search for..." aria-describedby="btnNavbarSearch" />
+                    <button class="btn btn-primary" id="btnNavbarSearch" type="button"><i class="fas fa-search"></i></button>
+                </div>
+            </form>
         </nav>
         <div id="layoutSidenav">
             <div id="layoutSidenav_nav">
@@ -87,10 +93,9 @@ require '../content/database_conf.php';
                                             <td><?= htmlspecialchars($planet); ?></td>
                                             <td><?= htmlspecialchars($seat); ?></td>
                                             <td>
+                                                <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#edit<?= $id_booking; ?>">Edit</button>
                                                 <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#delete<?= $id_booking; ?>">Delete</button>
-                                            </td>
-                                        </tr>
-                                        <tr>
+
                                             <!-- Delete Modal -->
                                             <div class="modal fade" id="delete<?=$id_booking;?>" >
                                                 <div class="modal-dialog">
@@ -115,7 +120,49 @@ require '../content/database_conf.php';
                                                     </form>
                                                 </div>
                                             </div>
-                                        </tr>    
+                                            </td>
+                                        </tr> 
+
+                                        <!-- Edit Modal -->
+                                            <div class="modal fade" id="edit<?=$id_booking;?>" >
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+
+                                                    <!-- Modal Header -->
+                                                    <div class="modal-header">
+                                                        <h4 class="modal-title">Edit Histori</h4>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                                    </div>
+
+                                                    <!-- Modal body -->
+                                                    <form method="post">
+                                                    <div class="modal-body">
+                                                        Pax : 
+                                                        <?=$user;?><br><br>
+                                                        Destination:
+                                                        <select class="form-control" name="planet-edit" required>
+                                                        <?php
+                                                            $planets = json_decode(file_get_contents("../data/planets.json"), true);
+                                                            foreach($planets as $row) { 
+                                                                echo "<option value='{$row['planet_id']}'>{$row['name']}</option>";
+                                                            }
+                                                        ?>
+                                                        </select><br>
+
+                                                        Seat :
+                                                        <select class="form-control" name="seat-edit" required>
+                                                        <?php
+                                                        for ($i = 1; $i <= 5; $i++) {
+                                                            echo "<option value='{$i}'>Seat {$i}</option>";
+                                                        }
+                                                        ?>
+                                                        </select><br>
+                                                        <input type="hidden" name="id_booking" value="<?=$id_booking;?>">
+                                                        <button class="btn btn-success mt-2" type="submit" name="edithistori">Submit</button>
+                                                    </div>
+                                                </form>
+                                                </div>
+                                            </div>
                                         <?php
                                         };
                                         ?>
@@ -142,68 +189,4 @@ require '../content/database_conf.php';
         <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
         <script src="js/datatables-simple-demo.js"></script>
     </body>
-    <!-- The Modal -->
-    <div class="modal fade" id="myModal">
-    <div class="modal-dialog">
-        <div class="modal-content">
-
-        <!-- Modal Header -->
-        <div class="modal-header">
-            <h4 class="modal-title">Tambah Histori</h4>
-            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-        </div>
-
-        <!-- Modal body -->
-         <form method="post">
-        <div class="modal-body">
-        <label>User :</label>
-        <select class="form-control" name="user" required>
-                <?php
-                    $getdata = mysqli_query($conn, "SELECT * FROM user");
-                    while($row = mysqli_fetch_assoc($getdata)){ // Ganti menjadi fetch_assoc
-                        echo "<option value='{$row['id_user']}'>{$row['email']}</option>";
-                    }
-                ?>
-                </select><br>
-
-            <label>Kelas Tiket :</label>
-            <select class="form-control" name="tiket" required>
-                <?php
-                    $getdata = mysqli_query($conn, "SELECT * FROM tiket");
-                    while($row = mysqli_fetch_assoc($getdata)){ // Ganti menjadi fetch_assoc
-                        echo "<option value='{$row['id_tiket']}'>{$row['kelas']}</option>";
-                    }
-                ?>
-                </select><br>
-
-            <label>Asal Pemberangkatan :</label>
-            <select class="form-control" name="asal" required>
-                <?php
-                    $getdata = mysqli_query($conn, "SELECT * FROM planet");
-                    while($row = mysqli_fetch_assoc($getdata)){ // Ganti menjadi fetch_assoc
-                        echo "<option value='{$row['id_planet']}'>{$row['nama']}</option>";
-                    }
-                ?>
-                </select><br>
-
-            <label>Tujuan Pemberangkatan :</label>
-            <select class="form-control" name="tujuan" required>
-                <?php
-                    $getdata = mysqli_query($conn, "SELECT * FROM planet");
-                    while($row = mysqli_fetch_assoc($getdata)){ // Ganti menjadi fetch_assoc
-                        echo "<option value='{$row['id_planet']}'>{$row['nama']}</option>";
-                    }
-                ?>
-                </select><br>
-
-            <label>Jadwal Pemberangkatan :</label>
-            <input class="form-control" type="date" name="tanggal" required><br>
-            <input class="form-control" type="time" name="pukul" required><br>
-            <button class="btn btn-primary" type="submit"  name="addnewhistori">Submit</button><br><br>
-        </div>
-        </form>
-
-        </div>
-    </div>
-    </div>
 </html>
