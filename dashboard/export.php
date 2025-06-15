@@ -1,5 +1,7 @@
 <?php
 require 'function.php';
+require '../content/database_conf.php';
+
 ?>
 <html>
 <head>
