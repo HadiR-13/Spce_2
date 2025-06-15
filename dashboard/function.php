@@ -2,20 +2,16 @@
 session_start();
 require '../content/database_conf.php';
 
-if (isset($_POST['deletehistori'])) {
-    $id_booking = mysqli_real_escape_string($conn, $_POST['id_booking']);
+if(isset($_POST['deletehistori'])){
+    $id_booking = $_POST['id_booking'];
 
-    if (!$id_booking) {
-        die("ID tidak valid.");
-    }
+    $delete = mysqli_query($conn,"DELETE FROM booking WHERE booking_id='$id_booking'");
 
-    $delete = mysqli_query($conn, "DELETE FROM booking WHERE booking_id = '$id_booking'");
-
-    if ($delete) {
-        header("Location: index.php");
-        exit();
+    if($delete){
+        header('location:index.php');
     } else {
-        die("Query gagal: " . mysqli_error($conn));
+        echo "Tidak ada data yang ditemukan";
+        header('location:index.php');
     }
 }
 
