@@ -22,6 +22,9 @@ window.addEventListener('DOMContentLoaded', event => {
         };
 
         dataTable.on('datatable.init', updateRowNumbers);
+        dataTable.on('datatable.page', updateRowNumbers);
+        dataTable.on('datatable.sort', updateRowNumbers);
+        dataTable.on('datatable.search', updateRowNumbers);
         dataTable.on('datatable.update', updateRowNumbers);
     }
 });
