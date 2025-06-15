@@ -1,4 +1,5 @@
 <?php
+require '../content/database_conf.php';
 session_start();
 
 function checkLogin() {
