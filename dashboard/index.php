@@ -1,11 +1,7 @@
 <?php
-require_once 'auth_check.php';
-checkAdminRole();
+require 'function.php';
+require '../content/database_conf.php';
 
-require_once 'function.php';
-require_once '../content/database_conf.php';
-
-$currentUser = getCurrentUser();
 ?>
 <!DOCTYPE html>
 <html lang="en">
