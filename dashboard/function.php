@@ -1,5 +1,4 @@
 <?php
-session_start();
 require '../content/database_conf.php';
 
 if(isset($_POST['deletehistori'])){
