@@ -50,123 +50,65 @@ require 'auth_check.php';
             <div id="layoutSidenav_content">
                 <main>
                     <div class="container-fluid px-4">
-                        <h1 class="mt-4">Histori Booking Tiket</h1>                           
+                        <h1 class="mt-4">Manajemen User</h1>                           
                         <div class="card mb-4">
-                            <div class="card-header">
-                                <a href="export.php" class="btn btn-success">Export Data</a>
-                            </div>
                             <div class="card-body">
                                 <table id="datatablesSimple">
                                     <thead>
                                         <tr>
                                             <th>No</th>
-                                            <th>Nama</th>
-                                            <th>Destinasi</th>
-                                            <th>Nomor Kursi</th>
+                                            <th>Username</th>
+                                            <th>Phone</th>
+                                            <th>Email</th>
                                             <th>Aksi</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <?php
                                         $no = 1;
-                                        $query = "SELECT 
-                                                    b.booking_id,
-                                                    u.username,
-                                                    b.planet_id,
-                                                    b.seat_number
-                                                FROM booking b
-                                                JOIN user u ON b.user_id = u.user_id
-                                                ORDER BY b.booking_id ASC";
+                                        $query = "SELECT * FROM user where role='user'";
 
                                         $getdatastock = mysqli_query($conn, $query);
                                         while($data = mysqli_fetch_array($getdatastock)){
-                                            $id_booking = $data['booking_id'];
-                                            $user = $data['username'];
-                                            $planet = $data['planet_id']; 
-                                            $seat = $data['seat_number'];
+                                            $id_user = $data['user_id'];
+                                            $username = $data['username'];
+                                            $email = $data['email']; 
+                                            $phone = $data['phone'];
                                         ?>
                                         <tr>
                                             <td><?= $no++; ?></td>
-                                            <td><?= htmlspecialchars($user); ?></td>
-                                            <td><?= htmlspecialchars($planet); ?></td>
-                                            <td><?= htmlspecialchars($seat); ?></td>
+                                            <td><?= htmlspecialchars($username); ?></td>
+                                            <td><?= htmlspecialchars($email); ?></td>
+                                            <td><?= htmlspecialchars($phone); ?></td>
                                             <td>
-                                                <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#edit<?= $id_booking; ?>">Edit</button>
                                                 <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#delete<?= $id_booking; ?>">Delete</button>
 
                                             <!-- Delete Modal -->
-                                            <div class="modal fade" id="delete<?=$id_booking;?>" >
+                                            <div class="modal fade" id="delete<?=$id_user;?>" >
                                                 <div class="modal-dialog">
                                                     <div class="modal-content">
 
                                                     <!-- Modal Header -->
                                                     <div class="modal-header">
-                                                        <h4 class="modal-title">Hapus Histori?</h4>
+                                                        <h4 class="modal-title">Hapus Data USer?</h4>
                                                         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                                                     </div>
 
                                                     <!-- Modal body -->
                                                     <form method="post">
                                                     <div class="modal-body">
-                                                        <?=$user;?><br>
-                                                        <?=$planet;?><br>
-                                                        <?=$seat;?><br>
-                                                        <strong>Anda yakin ingin menghapus histori ini?</strong><br><br>
-                                                        <input type="hidden" name="id_booking" value="<?=$id_booking;?>">
-                                                        <button class="btn btn-danger" type="submit" name="deletehistori">Hapus</button>
+                                                        <?=$username;?><br>
+                                                        <?=$email;?><br>
+                                                        <?=$phone;?><br>
+                                                        <strong>Anda yakin ingin menghapus data ini?</strong><br><br>
+                                                        <input type="hidden" name="id_user" value="<?=$id_user;?>">
+                                                        <button class="btn btn-danger" type="submit" name="deleteuser">Hapus</button>
                                                     </div>
                                                     </form>
                                                 </div>
                                             </div>
                                             </td>
                                         </tr> 
-
-                                        <!-- Edit Modal -->
-                                        <div class="modal fade" id="edit<?= $id_booking; ?>">
-                                            <div class="modal-dialog">
-                                                <div class="modal-content">
-
-                                                    <!-- Modal Header -->
-                                                    <div class="modal-header">
-                                                        <h4 class="modal-title">Edit Histori</h4>
-                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                                                    </div>
-
-                                                    <!-- Modal body -->
-                                                    <form method="post">
-                                                        <div class="modal-body">
-                                                            Pax :
-                                                            <?= htmlspecialchars($user); ?><br><br>
-
-                                                            Destination:
-                                                            <select class="form-control" name="planet-edit" required>
-                                                                <?php
-                                                                $planets = json_decode(file_get_contents("../data/planets.json"), true);
-                                                                foreach ($planets as $row) {
-                                                                    $selected = ($row['planet_id'] == $planet) ? 'selected' : '';
-                                                                    echo "<option value='{$row['planet_id']}' $selected>{$row['name']}</option>";
-                                                                }
-                                                                ?>
-                                                            </select><br>
-
-                                                            Seat:
-                                                            <select class="form-control" name="seat-edit" required>
-                                                                <?php
-                                                                for ($i = 1; $i <= 5; $i++) {
-                                                                    $selected = ($i == $seat) ? 'selected' : '';
-                                                                    echo "<option value='{$i}' $selected>Seat {$i}</option>";
-                                                                }
-                                                                ?>
-                                                            </select><br>
-
-                                                            <input type="hidden" name="id_booking" value="<?= $id_booking; ?>">
-                                                            <button class="btn btn-success mt-2" type="submit" name="edithistori">Submit</button>
-                                                        </div>
-                                                    </form>
-
-                                                </div>
-                                            </div>
-                                        </div>
                                         <?php
                                         };
                                         ?>

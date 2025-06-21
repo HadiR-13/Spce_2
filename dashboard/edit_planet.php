@@ -30,7 +30,11 @@ require 'auth_check.php';
                                 <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                                 Histori Booking
                             </a>
-                            <a class="nav-link" href="index.php">
+                            <a class="nav-link" href="user_management.php">
+                                <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                                Manajemen User
+                            </a>
+                            <a class="nav-link" href="edit_planet.php">
                                 <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                                 Edit Planet
                             </a>
